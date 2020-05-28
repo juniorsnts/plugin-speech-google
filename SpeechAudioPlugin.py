@@ -59,6 +59,7 @@ sys.path.append('./google-cloud-speech-1.3.2')
 import subprocess
 import os
 from java.io import File
+import platform
 
 # Factory that defines the name and details of the module and allows Autopsy
 # to create instances of the modules that will do the analysis.
@@ -152,8 +153,14 @@ class AudioSpeechTextModule(DataSourceIngestModule):
             lclDbPath = os.path.join(Case.getCurrentCase().getTempDirectory(), file.getName() + "-" + str(file.getId())) 
             ContentUtils.writeToFile(file, File(lclDbPath))
             credentials = os.path.join(current_dir, 'credentials_google.json')
-            plugin = os.path.join(current_dir, 'PluginSpeech.py')
-            response_speech = subprocess.Popen(["python", plugin, "--input={}".format(lclDbPath), "--credentials={}".format(credentials)], stdout=subprocess.PIPE)
+
+            plugin = os.path.join(current_dir, 'cli_speech', 'linux', 'PluginSpeech', 'PluginSpeech')
+
+            # for windows
+            if platform.system == 'Windows':
+                plugin = os.path.join(current_dir, 'cli_speech', 'windows', 'PluginSpeech', 'PluginSpeech.exe')
+
+            response_speech = subprocess.Popen([plugin, "--input={}".format(lclDbPath), "--credentials={}".format(credentials)], stdout=subprocess.PIPE)
             result = response_speech.communicate()
             
             self.log(Level.INFO, result[0].decode('utf-8'))
@@ -184,6 +191,8 @@ class AudioSpeechTextModule(DataSourceIngestModule):
                 self.log(Level.SEVERE, "Error indexing artifact " + artifact.getDisplayName())
 
             progressBar.progress(fileCount)
+
+            os.remove(lclDbPath)
 
 
         #Post a message to the ingest messages in box.

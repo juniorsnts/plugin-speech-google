@@ -6,9 +6,9 @@ import io
 import sys
 from pydub import AudioSegment
 
-parser = argparse.ArgumentParser(description="Converter videos/audios em texto com google-speech.")
-parser.add_argument("--input", required=True, help="Diretorio do arquivo de audio")
-parser.add_argument("--credentials", required=True, help="Diretorio das credenciais do google em .json")
+parser = argparse.ArgumentParser(description="Converter videos/audios em texto com google-cloud-speech.")
+parser.add_argument("--input", required=True, help="Diretório do arquivo de audio")
+parser.add_argument("--credentials", required=True, help="Diretório das credenciais do google em .json")
 args = parser.parse_args()
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = args.credentials
 client = speech_v1.SpeechClient()
