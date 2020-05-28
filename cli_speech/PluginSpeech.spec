@@ -4,11 +4,11 @@ block_cipher = None
 
 
 a = Analysis(['PluginSpeech.py'],
-             pathex=['google', '/home/juniordev/.autopsy/dev/python_modules/SpeechAudio/cli_speech'],
+             pathex=['Z:\\src'],
              binaries=[],
              datas=[],
-             hiddenimports=['google'],
-             hookspath=['/home/juniordev/.autopsy/dev/python_modules/SpeechAudio/cli_speech/hooks'],
+             hiddenimports=[],
+             hookspath=[],
              runtime_hooks=[],
              excludes=[],
              win_no_prefer_redirects=False,
@@ -30,4 +30,4 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=True )
+          console=True , icon='icon_speech.ico')
